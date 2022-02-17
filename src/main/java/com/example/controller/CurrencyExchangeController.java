@@ -19,6 +19,12 @@ public class CurrencyExchangeController {
 
     @GetMapping("/from/{from}/to/{to}")
     public ResponseEntity<CurrencyExchange> retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
-        return new ResponseEntity<>(currencyExchangeService.retrieveExchangeValue(from, to), HttpStatus.OK);
+
+        CurrencyExchange currencyExchange = currencyExchangeService.retrieveExchangeValue(from, to);
+        if (currencyExchange != null) {
+            return new ResponseEntity<>(currencyExchange, HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
